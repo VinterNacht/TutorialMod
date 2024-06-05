@@ -1,7 +1,11 @@
 package net.aetheriallabs.tutorialmod;
 
 import com.mojang.logging.LogUtils;
+import net.aetheriallabs.tutorialmod.block.ModBlocks;
+import net.aetheriallabs.tutorialmod.item.ModCreativeModeTabs;
+import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,8 +34,17 @@ public class TutorialMod
     public TutorialMod()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModCreativeModeTabs.register(modEventBus);
+
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
+
         MinecraftForge.EVENT_BUS.register(this);
+        modEventBus.addListener(this::addCreative);
+
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
@@ -46,7 +59,18 @@ public class TutorialMod
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        //Items
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.SAPPHIRE);}
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.RAW_SAPPHIRE);}
 
+        //Blocks
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModBlocks.SAPPHIRE_BLOCK);}
+
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+                event.accept(ModBlocks.RAW_SAPPHIRE_BLOCK);}
     }
 
     @SubscribeEvent

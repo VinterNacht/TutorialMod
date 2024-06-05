@@ -1,0 +1,15 @@
+{
+  "Item Listings": "This String Does Nothing",
+
+  "item.tutorialmod.sapphire": "Sapphire",
+  "item.tutorialmod.raw_sapphire": "Raw Sapphire",
+
+  "Block Listings Section": "This String Does Nothing",
+
+  "block.tutorialmod.sapphire_block":"Sapphire Block",
+  "block.tutorialmod.raw_sapphire_block":"Raw Sapphire Block",
+
+  "Creative Tab Listings": "This String Does Nothing",
+
+  "creativetab.tutorial_tab" : "Tutorial Mod"
+}
