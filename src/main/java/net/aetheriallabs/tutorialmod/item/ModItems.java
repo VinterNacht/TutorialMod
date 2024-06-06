@@ -2,6 +2,7 @@ package net.aetheriallabs.tutorialmod.item;
 
 import com.google.common.util.concurrent.ClosingFuture;
 import net.aetheriallabs.tutorialmod.TutorialMod;
+import net.aetheriallabs.tutorialmod.item.custom.MetalDetectorItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -17,6 +18,8 @@ public class ModItems {
             ITEMS.register( "sapphire", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> RAW_SAPPHIRE =
             ITEMS.register("raw_sapphire", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<MetalDetectorItem> METAL_DETECTOR =
+            ITEMS.register("metal_detector", () -> new MetalDetectorItem(new MetalDetectorItem.Properties().durability(100)));
 
     //BlockItem Registry ??
 

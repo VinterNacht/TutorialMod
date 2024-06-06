@@ -2,7 +2,7 @@ package net.aetheriallabs.tutorialmod;
 
 import com.mojang.logging.LogUtils;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
-import net.aetheriallabs.tutorialmod.item.ModCreativeModeTabs;
+import net.aetheriallabs.tutorialmod.utility.ModCreativeModeTabs;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTabs;
