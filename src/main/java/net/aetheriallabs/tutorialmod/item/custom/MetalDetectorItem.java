@@ -10,6 +10,9 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class MetalDetectorItem extends Item {
 
@@ -18,7 +21,7 @@ public class MetalDetectorItem extends Item {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext pContext) {
+    public @NotNull InteractionResult useOn(UseOnContext pContext) {
         //This is happening only on the serverside, so make sure you're not checking the client.
         if(!pContext.getLevel().isClientSide()){
             BlockPos positionClicked = pContext.getClickedPos();
@@ -30,18 +33,20 @@ public class MetalDetectorItem extends Item {
                 BlockState state = pContext.getLevel().getBlockState(positionClicked.below(i));
 
                 if(isValuableBlock(state)){
+                    assert player != null;
                     outputValuableCoordinates(positionClicked.below(i), player, state.getBlock());
                     foundBlock = true;
                     break;
-                };
+                }
             }
 
             if(!foundBlock){
+                assert player != null;
                 player.sendSystemMessage(Component.literal("No Ore Found"));
             }
         }
 
-        pContext.getItemInHand().hurtAndBreak(1, pContext.getPlayer(),
+        pContext.getItemInHand().hurtAndBreak(1, Objects.requireNonNull(pContext.getPlayer()),
                 player -> player.broadcastBreakEvent(player.getUsedItemHand()));
 
         return InteractionResult.SUCCESS;
@@ -56,12 +61,23 @@ public class MetalDetectorItem extends Item {
     private boolean isValuableBlock(BlockState state) {
         Block[] valuableblockarray = {Blocks.IRON_ORE,Blocks.GOLD_ORE,Blocks.DIAMOND_ORE,Blocks.COPPER_ORE,Blocks.REDSTONE_ORE,Blocks.LAPIS_ORE};
 
-        for(int i=0; i<valuableblockarray.length; i++)
-        {
-            if(state.is(valuableblockarray[i])){
+        for (Block block : valuableblockarray) {
+            if (state.is(block)) {
                 return true;
             }
         }
+
+        //THe above is an enhanced for loop, is the equivalent of below
+        //I read the above as "For each block in variableblockarray" Where Block block both declares the variable
+        //name and type, and defines the statement. ":" is "for each in".  Definitely a cleaner implementation than
+        //below.
+        // for(int i=0; i<valuableblockarray.length; i++)
+        //        {
+        //            if(state.is(valuableblockarray[i])){
+        //                return true;
+        //            }
+        //        }
+
         return false;
 
         //return state.is(Blocks.IRON_ORE);
