@@ -2,7 +2,7 @@ package net.aetheriallabs.tutorialmod;
 
 import com.mojang.logging.LogUtils;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
-import net.aetheriallabs.tutorialmod.utility.ModCreativeModeTabs;
+import net.aetheriallabs.tutorialmod.util.ModCreativeModeTabs;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -22,6 +22,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
+
 @Mod(TutorialMod.MOD_ID)
 public class TutorialMod
 {
@@ -29,7 +30,6 @@ public class TutorialMod
     public static final String MOD_ID = "tutorialmod";
 
     private static final Logger LOGGER = LogUtils.getLogger();
-
 
     public TutorialMod()
     {

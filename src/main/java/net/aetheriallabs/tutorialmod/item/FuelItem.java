@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
 
+
 public class FuelItem extends Item {
     private int burnTime = 0;
     public FuelItem(Properties pProperties, int burnTime) {
@@ -26,4 +27,5 @@ public class FuelItem extends Item {
     //above to allow this class to be used to add as many fuel items as I want. This is, in essence, a custom class.
     //Interestingly, the vanilla items don't seem to follow this process when they are defining the items, and coal
     //is just another item. Will look at the furnace and the item class to see how its implemented there.
+
 }

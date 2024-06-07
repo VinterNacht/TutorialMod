@@ -1,4 +1,4 @@
-package net.aetheriallabs.tutorialmod.utility;
+package net.aetheriallabs.tutorialmod.util;
 
 import net.aetheriallabs.tutorialmod.TutorialMod;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
