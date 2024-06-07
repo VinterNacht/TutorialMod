@@ -2,7 +2,6 @@ package net.aetheriallabs.tutorialmod.utility;
 
 import net.aetheriallabs.tutorialmod.TutorialMod;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
-import net.aetheriallabs.tutorialmod.item.ModFoods;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

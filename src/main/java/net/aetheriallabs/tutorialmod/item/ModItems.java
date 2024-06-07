@@ -1,6 +1,5 @@
 package net.aetheriallabs.tutorialmod.item;
 
-import com.google.common.util.concurrent.ClosingFuture;
 import net.aetheriallabs.tutorialmod.TutorialMod;
 import net.aetheriallabs.tutorialmod.item.custom.MetalDetectorItem;
 import net.minecraft.world.item.Item;
@@ -19,10 +18,18 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_SAPPHIRE =
             ITEMS.register("raw_sapphire", () -> new Item(new Item.Properties()));
     public static final RegistryObject<MetalDetectorItem> METAL_DETECTOR =
-            ITEMS.register("metal_detector", () -> new MetalDetectorItem(new MetalDetectorItem.Properties().durability(100)));
+            ITEMS.register("metal_detector", () ->
+                    new MetalDetectorItem(new MetalDetectorItem.Properties().durability(100)));
 
-    //BlockItem Registry ??
+    public static final RegistryObject<Item> PINE_CONE =
+            ITEMS.register("pine_cone", () -> new FuelItem(new Item.Properties(), 400));
 
+    public static final RegistryObject<Item> STRAWBERRY =
+            ITEMS.register( "strawberry", () -> new Item(new Item.Properties().food(ModFoods.STRAWBERRY)));
+
+
+    //Food registers here as a regular item, as it's a type of Item, with additional properties. At the end, you send
+    //the Food Object reference as an argument to the .food() method in Item.Properties() to set its properties.
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus); //register ITEMS using the eventBus. This registers the DeferredRegister to the modlist.
