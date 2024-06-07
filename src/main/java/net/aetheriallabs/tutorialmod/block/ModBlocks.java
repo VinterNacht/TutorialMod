@@ -1,6 +1,7 @@
 package net.aetheriallabs.tutorialmod.block;
 
 import net.aetheriallabs.tutorialmod.TutorialMod;
+import net.aetheriallabs.tutorialmod.block.custom.SoundBlock;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -14,7 +15,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.spongepowered.asm.mixin.injection.modify.BeforeLoadLocal;
 
 import java.util.function.Supplier;
 
@@ -48,7 +48,7 @@ public class ModBlocks {
             registerBlock("sapphire_ore", () ->
                     new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).
                             strength(2f).requiresCorrectToolForDrops(), UniformInt.of(3,6)));
-    //strength indicates how long a block takes to break. Default stone is at 1.5f, UnifformInt.of(min,Max)
+        //strength indicates how long a block takes to break. Default stone is at 1.5f, UnifformInt.of(min,Max)
     // is the minimum and maximum XP the block will drop.
 
     public static final RegistryObject<Block> DEEPSLATE_SAPPHIRE_ORE =
@@ -63,6 +63,11 @@ public class ModBlocks {
             registerBlock("end_stone_sapphire_ore", () ->
                     new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.END_STONE).
                             strength(2f).requiresCorrectToolForDrops(), UniformInt.of(3,6)));
+
+    //Custom Blocks Registered Below
+        public static final RegistryObject<SoundBlock> SOUND_BLOCK =
+            registerBlock("sound_block", () -> new SoundBlock(BlockBehaviour.Properties
+                    .copy(Blocks.NOTE_BLOCK)));
 
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus); //register ITEMS using the eventBus. This registers the DeferredRegister to the modlist.

@@ -2,6 +2,7 @@ package net.aetheriallabs.tutorialmod.utility;
 
 import net.aetheriallabs.tutorialmod.TutorialMod;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
+import net.aetheriallabs.tutorialmod.item.ModFoods;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -25,6 +26,15 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.SAPPHIRE.get());
                         pOutput.accept(ModItems.RAW_SAPPHIRE.get());
                         pOutput.accept(ModItems.METAL_DETECTOR.get());
+                        pOutput.accept(ModItems.PINE_CONE.get());
+
+                        //While strawberry is of class ModFoods, that class extends Items.
+                        //Therefore, we register strawberry in ModItems as ModItems.Strawberry.
+                        //and pass it to the Creative Tab as an item since it only (?) accepts
+                        //Items and BlockItems.
+                        pOutput.accept(ModItems.STRAWBERRY.get());
+
+
 
                         //For adding vanilla items to the custom creative tab
                         pOutput.accept(Items.DIAMOND);
@@ -37,6 +47,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModBlocks.DEEPSLATE_SAPPHIRE_ORE.get());
                         pOutput.accept(ModBlocks.NETHER_SAPPHIRE_ORE.get());
                         pOutput.accept(ModBlocks.END_STONE_SAPPHIRE_ORE.get());
+                        pOutput.accept(ModBlocks.SOUND_BLOCK.get());
 
                     })
                     .build());
