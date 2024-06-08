@@ -28,9 +28,9 @@ public class SoundBlock extends Block {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
                                  Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if(pLevel.isClientSide() && pPlayer.getItemInHand(pHand) == ItemStack.EMPTY) {
-            pLevel.playSound(pPlayer, pPos, SoundEvents.NOTE_BLOCK_DIDGERIDOO.get(), SoundSource.BLOCKS, 1f, 1f);
-            return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
-
+            pLevel.playSound(pPlayer, pPos, SoundEvents.NOTE_BLOCK_DIDGERIDOO.get(), SoundSource.BLOCKS,
+                    1f, 1f);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.sidedSuccess(false);
     }

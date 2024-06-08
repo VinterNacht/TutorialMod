@@ -1,9 +1,9 @@
 {
   "values": [
+    "tutorialmod:sapphire_block",
     "tutorialmod:nether_sapphire_ore",
     "tutorialmod:sapphire_ore",
     "tutorialmod:end_stone_sapphire_ore",
-    "tutorialmod:sapphire_block",
     "tutorialmod:raw_sapphire_block",
     "tutorialmod:deepslate_sapphire_ore",
     "tutorialmod:sound_block"

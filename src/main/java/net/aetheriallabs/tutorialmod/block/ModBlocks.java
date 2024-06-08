@@ -58,7 +58,7 @@ public class ModBlocks {
     //Custom Blocks Registered Below
     public static final RegistryObject<Block> SOUND_BLOCK = registerBlock("sound_block", () ->
             new SoundBlock(BlockBehaviour.Properties
-                    .copy(Blocks.NOTE_BLOCK)));
+                    .copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> SAPPHIRE_STAIRS =
             registerBlock("sapphire_stairs", () ->
