@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tutorialmod:sapphire"
+    }
+  ],
+  "result": {
+    "item": "tutorialmod:sapphire_button"
+  }
+}
