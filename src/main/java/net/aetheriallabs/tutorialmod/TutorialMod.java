@@ -22,6 +22,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
+import java.awt.event.KeyEvent;
+
 
 @Mod(TutorialMod.MOD_ID)
 public class TutorialMod
@@ -34,7 +36,6 @@ public class TutorialMod
     public TutorialMod()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         ModCreativeModeTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
