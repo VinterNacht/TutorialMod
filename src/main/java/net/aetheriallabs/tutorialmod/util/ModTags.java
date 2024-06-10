@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class ModTags {
+
     public static class Blocks {
 
         public static final TagKey<Block> METAL_DETECTOR_VALUABLES = tag("metal_detector_valuables");
@@ -20,6 +21,9 @@ public class ModTags {
     }
 
     public static class Items {
+
+        public static final TagKey<Item> IS_SEASONABLE_FOOD = tag("is_seasonable_food");
+        public static final TagKey<Item> IS_SEASONING = tag("is_seasoning");
 
         private static TagKey<Item> tag(String name){
             return ItemTags.create(new ResourceLocation(TutorialMod.MOD_ID, name));

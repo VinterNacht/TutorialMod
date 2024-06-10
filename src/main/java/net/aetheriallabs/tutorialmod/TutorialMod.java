@@ -2,10 +2,11 @@ package net.aetheriallabs.tutorialmod;
 
 import com.mojang.logging.LogUtils;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
+import net.aetheriallabs.tutorialmod.loot.ModLootModifiers;
+import net.aetheriallabs.tutorialmod.util.CraftingSerializers;
 import net.aetheriallabs.tutorialmod.util.ModCreativeModeTabs;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,15 +23,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
-import java.awt.event.KeyEvent;
-
 
 @Mod(TutorialMod.MOD_ID)
 public class TutorialMod
 {
 
     public static final String MOD_ID = "tutorialmod";
-
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public TutorialMod()
@@ -38,12 +36,13 @@ public class TutorialMod
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModCreativeModeTabs.register(modEventBus);
 
+        MinecraftForge.EVENT_BUS.register(this);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
+        CraftingSerializers.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
-
-        MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -60,18 +59,6 @@ public class TutorialMod
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        //Items
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModItems.SAPPHIRE);}
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModItems.RAW_SAPPHIRE);}
-
-        //Blocks
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModBlocks.SAPPHIRE_BLOCK);}
-
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-                event.accept(ModBlocks.RAW_SAPPHIRE_BLOCK);}
     }
 
     @SubscribeEvent

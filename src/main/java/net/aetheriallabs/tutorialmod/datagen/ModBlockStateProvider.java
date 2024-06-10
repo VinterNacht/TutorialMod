@@ -3,6 +3,7 @@ package net.aetheriallabs.tutorialmod.datagen;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.TippedArrowRecipe;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
