@@ -1,9 +1,14 @@
 package net.aetheriallabs.tutorialmod.item.custom.recipes;
 
+import com.mojang.logging.LogUtils;
+import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.aetheriallabs.tutorialmod.util.ModTags;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,14 +17,14 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraft.world.item.crafting.TippedArrowRecipe;
 import net.minecraft.world.level.Level;
 import net.aetheriallabs.tutorialmod.util.CraftingSerializers;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import org.jline.utils.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SeasonedFoodRecipe extends CustomRecipe {
 
@@ -32,40 +37,48 @@ public class SeasonedFoodRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(@NotNull CraftingContainer pInv, Level pLevel) {
-        if (pInv.getWidth() == 3 && pInv.getHeight() == 3) {
-            for (int i = 0; i < pInv.getWidth(); ++i) {
-                for (int j = 0; j < pInv.getHeight(); ++j) {
-                    ItemStack itemstack = pInv.getItem(i + j * pInv.getWidth());
-                    if (itemstack.isEmpty()) {
-                        return false;
-                    }
+    public boolean matches(CraftingContainer pContainer, Level pLevel) {
 
-                    if (i == 1 && j == 1) {
-                        if (!itemstack.is(SEASONING)) {
-                            return false;
-                        }
-                    } else if (!itemstack.is(SEASONABLE_FOOD)) {
-                        return false;
-                    } else if (itemstack.is(SEASONABLE_FOOD)) {
-                        foodStack = foodStack;
-                    }
-                }
+        for (int i = 0; i < pContainer.getContainerSize(); i++) {
+
+            LogUtils.getLogger().debug("time is: " + pLevel.getGameTime() + ",i is " + i + " And the container size is " + pContainer.getContainerSize());
+
+            if (i == 4) {
+                LogUtils.getLogger().debug("Container holds: " + pContainer.getItem(4).toString());
+                LogUtils.getLogger().debug("Container holds seasoning: " + (pContainer.getItem(i).is(SEASONING)));
+                if (!pContainer.getItem(i).is(SEASONING)) return false;
+                return !pContainer.getItem(4).getFoodProperties(null).getEffects().isEmpty();
+            } else if (i == 6) {
+                LogUtils.getLogger().debug("Container holds: " + pContainer.getItem(i).toString());
+                LogUtils.getLogger().debug("Container holds seasonable food: " + (pContainer.getItem(i).is(SEASONABLE_FOOD)));
+                if (!pContainer.getItem(i).is(SEASONABLE_FOOD) && !pContainer.getItem(i).isEmpty()) return false;
+                foodStack = pContainer.getItem(i);
+            } else if (!(i==4) && !pContainer.getItem(i).isEmpty()){
+                return false;
             }
-            return true;
-        } else {
-            return false;
+
+            LogUtils.getLogger().debug("We are past the beef check");
         }
+        return true;
     }
 
-    public ItemStack assemble(@NotNull CraftingContainer pContainer, RegistryAccess pRegistryAccess) {
-        ItemStack itemstack = pContainer.getItem(1 + pContainer.getWidth());
+
+    public ItemStack assemble(CraftingContainer pContainer, RegistryAccess pRegistryAccess) {
+        ItemStack itemstack = pContainer.getItem(4);
         if (!itemstack.is(SEASONING)) {
             return ItemStack.EMPTY;
         } else {
-            ItemStack itemstack1 = foodStack;
+            ItemStack itemstack1 = new ItemStack(foodStack.getItem(),1);
+
+            List<MobEffectInstance> effectList = new ArrayList<MobEffectInstance>();
+
+            for(int i = 0; i<effectList.size(); i++){
+                effectList.add(itemstack.getFoodProperties(null).getEffects().get(i).getFirst());
+            }
+
             PotionUtils.setPotion(itemstack1, PotionUtils.getPotion(itemstack));
-            PotionUtils.setCustomEffects(itemstack1, PotionUtils.getCustomEffects(itemstack));
+            PotionUtils.setCustomEffects(itemstack1, effectList);
+
             return itemstack1;
         }
     }
