@@ -8,11 +8,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -20,6 +24,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.TippedArrowRecipe;
 import net.minecraft.world.level.Level;
 import net.aetheriallabs.tutorialmod.util.CraftingSerializers;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jline.utils.Log;
 
@@ -43,20 +48,22 @@ public class SeasonedFoodRecipe extends CustomRecipe {
 
             LogUtils.getLogger().debug("time is: " + pLevel.getGameTime() + ",i is " + i + " And the container size is " + pContainer.getContainerSize());
 
-            if (i == 4) {
+            if ((i<4 || i>5) && pContainer.getItem(i).is(Items.AIR)) {
+                continue;
+            } else if (i == 4) {
                 LogUtils.getLogger().debug("Container holds: " + pContainer.getItem(4).toString());
                 LogUtils.getLogger().debug("Container holds seasoning: " + (pContainer.getItem(i).is(SEASONING)));
                 if (!pContainer.getItem(i).is(SEASONING)) return false;
-                return !pContainer.getItem(4).getFoodProperties(null).getEffects().isEmpty();
-            } else if (i == 6) {
+
+            } else if (i == 5) {
                 LogUtils.getLogger().debug("Container holds: " + pContainer.getItem(i).toString());
                 LogUtils.getLogger().debug("Container holds seasonable food: " + (pContainer.getItem(i).is(SEASONABLE_FOOD)));
-                if (!pContainer.getItem(i).is(SEASONABLE_FOOD) && !pContainer.getItem(i).isEmpty()) return false;
+
+                if (!pContainer.getItem(i).is(SEASONABLE_FOOD)) return false;
                 foodStack = pContainer.getItem(i);
-            } else if (!(i==4) && !pContainer.getItem(i).isEmpty()){
+            } else {
                 return false;
             }
-
             LogUtils.getLogger().debug("We are past the beef check");
         }
         return true;
@@ -70,9 +77,9 @@ public class SeasonedFoodRecipe extends CustomRecipe {
         } else {
             ItemStack itemstack1 = new ItemStack(foodStack.getItem(),1);
 
-            List<MobEffectInstance> effectList = new ArrayList<MobEffectInstance>();
+            ArrayList<MobEffectInstance> effectList = new ArrayList<MobEffectInstance>();
 
-            for(int i = 0; i<effectList.size(); i++){
+            for(int i = 0; i<itemstack.getFoodProperties(null).getEffects().size(); i++){
                 effectList.add(itemstack.getFoodProperties(null).getEffects().get(i).getFirst());
             }
 
@@ -83,7 +90,6 @@ public class SeasonedFoodRecipe extends CustomRecipe {
         }
     }
 
-    @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         ItemStack food = new ItemStack(Items.BREAD);
 
