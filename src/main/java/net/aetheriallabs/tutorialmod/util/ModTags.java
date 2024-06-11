@@ -22,6 +22,7 @@ public class ModTags {
 
     public static class Items {
 
+        public static final TagKey<Item> SEASONED_FOOD = tag("seasoned_food");
         public static final TagKey<Item> IS_SEASONABLE_FOOD = tag("is_seasonable_food");
         public static final TagKey<Item> IS_SEASONING = tag("is_seasoning");
 

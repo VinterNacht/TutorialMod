@@ -5,6 +5,7 @@ import net.aetheriallabs.tutorialmod.item.custom.FuelItem;
 import net.aetheriallabs.tutorialmod.item.custom.MetalDetectorItem;
 import net.aetheriallabs.tutorialmod.item.custom.ModArmorItem;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -22,7 +23,6 @@ public class ModItems {
     public static final RegistryObject<Item> METAL_DETECTOR =
             ITEMS.register("metal_detector", () ->
                     new MetalDetectorItem(new MetalDetectorItem.Properties().durability(100)));
-
     public static final RegistryObject<Item> PINE_CONE =
             ITEMS.register("pine_cone", () -> new FuelItem(new Item.Properties(), 400));
 

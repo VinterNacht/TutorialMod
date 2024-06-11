@@ -8,14 +8,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.AirItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -78,14 +77,15 @@ public class SeasonedFoodRecipe extends CustomRecipe {
             ItemStack itemstack1 = new ItemStack(foodStack.getItem(),1);
 
             ArrayList<MobEffectInstance> effectList = new ArrayList<MobEffectInstance>();
-
             for(int i = 0; i<itemstack.getFoodProperties(null).getEffects().size(); i++){
                 effectList.add(itemstack.getFoodProperties(null).getEffects().get(i).getFirst());
             }
 
+            //TODO: Find way to add new tag to output item, and then remove IS_SEASONABLE_FOOD
+            //itemstack1.getOrCreateTagElement("seasoned_food");
+            //itemstack1.removeTagKey(ModTags.Items.IS_SEASONABLE_FOOD.toString());
             PotionUtils.setPotion(itemstack1, PotionUtils.getPotion(itemstack));
             PotionUtils.setCustomEffects(itemstack1, effectList);
-
             return itemstack1;
         }
     }

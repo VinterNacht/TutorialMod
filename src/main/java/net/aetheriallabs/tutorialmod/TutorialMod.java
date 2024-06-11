@@ -2,10 +2,12 @@ package net.aetheriallabs.tutorialmod;
 
 import com.mojang.logging.LogUtils;
 import net.aetheriallabs.tutorialmod.block.ModBlocks;
+import net.aetheriallabs.tutorialmod.datagen.ModGlobalLootModifiersProvider;
 import net.aetheriallabs.tutorialmod.loot.ModLootModifiers;
 import net.aetheriallabs.tutorialmod.util.CraftingSerializers;
 import net.aetheriallabs.tutorialmod.util.ModCreativeModeTabs;
 import net.aetheriallabs.tutorialmod.item.ModItems;
+import net.aetheriallabs.tutorialmod.util.SeasonedFoodEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,6 +37,7 @@ public class TutorialMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModCreativeModeTabs.register(modEventBus);
+        MinecraftForge.EVENT_BUS.register(new SeasonedFoodEvents());
 
         MinecraftForge.EVENT_BUS.register(this);
         ModItems.register(modEventBus);
