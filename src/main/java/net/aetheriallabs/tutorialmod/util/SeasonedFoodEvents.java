@@ -2,6 +2,7 @@ package net.aetheriallabs.tutorialmod.util;
 
 import com.mojang.datafixers.util.Pair;
 import net.aetheriallabs.tutorialmod.TutorialMod;
+import net.aetheriallabs.tutorialmod.item.custom.recipes.SeasonedFoodRecipe;
 import net.minecraft.client.tutorial.Tutorial;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -32,11 +33,11 @@ public class SeasonedFoodEvents {
     public void onEat(Player player, ItemStack item) {
         ArrayList<MobEffectInstance> effects = new ArrayList<MobEffectInstance>(PotionUtils.getCustomEffects(item));
 
-        if (!PotionUtils.getCustomEffects(item).isEmpty()) {
+        //if (SeasonedFoodRecipe.getSeasoningEffects(item).isEmpty()) {
             for (int i = 0; i < effects.size(); i++) {
                 player.addEffect(effects.get(i)
                 );
             }
-        }
+        //}
     }
 }

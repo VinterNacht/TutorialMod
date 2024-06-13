@@ -1,4 +1,8 @@
 {
+  "MISCELLANOUS_COMMENT": "Various and Sundry Below",
+  "seasoned": "Seasoned",
+
+
   "ITEM_COMMENT": "ITEMS BELOW",
   "item.tutorialmod.sapphire": "Sapphire",
   "item.tutorialmod.raw_sapphire": "Raw Sapphire",
@@ -15,6 +19,7 @@
   "item.tutorialmod.sapphire_chestplate": "Sapphire Chestplate",
   "item.tutorialmod.sapphire_leggings": "Sapphire Leggings",
   "item.tutorialmod.sapphire_boots": "Sapphire Boots",
+  "item.tutorialmod.sapphire_staff": "Sapphire Staff",
 
   "ORES_COMMENT": "ORES BELOW",
   "block.tutorialmod.sapphire_ore":"Sapphire Ore",
