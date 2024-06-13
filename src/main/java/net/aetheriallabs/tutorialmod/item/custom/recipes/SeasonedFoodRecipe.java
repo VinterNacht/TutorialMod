@@ -87,7 +87,7 @@ public class SeasonedFoodRecipe extends CustomRecipe {
             for (int i = 0; i < itemstack.getFoodProperties(null).getEffects().size(); i++) {
                 effectList.add(itemstack.getFoodProperties(null).getEffects().get(i).getFirst());
             }
-            RenderTooltipEvent.GatherComponents
+
             //TODO: Learn about adding and removing tags
               setSeasoningEffects(itemstack1, effectList);
 
