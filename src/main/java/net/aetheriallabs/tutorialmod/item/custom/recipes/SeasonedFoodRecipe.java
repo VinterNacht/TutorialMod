@@ -1,11 +1,11 @@
 package net.aetheriallabs.tutorialmod.item.custom.recipes;
 
+import com.google.common.collect.Lists;
 import com.mojang.logging.LogUtils;
 import net.aetheriallabs.tutorialmod.util.ModTags;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -24,10 +24,13 @@ import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.items.ItemStackHandler;
 import org.openjdk.nashorn.internal.runtime.logging.DebugLogger;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
+import javax.swing.text.html.HTML;
 import javax.tools.Tool;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class SeasonedFoodRecipe extends CustomRecipe {
 
@@ -53,21 +56,21 @@ public class SeasonedFoodRecipe extends CustomRecipe {
             if ((i < 3 || i > 4) && curStack.is(Items.AIR)) {
                 continue;
             } else if (i == 4) {
-                LogUtils.getLogger().debug("Container holds: " + pContainer.getItem(4).toString());
-                LogUtils.getLogger().debug("Container holds seasoning: " + (curStack.is(SEASONING)));
+//                LogUtils.getLogger().debug("Container holds: " + pContainer.getItem(4).toString());
+//                LogUtils.getLogger().debug("Container holds seasoning: " + (curStack.is(SEASONING)));
                 if (!curStack.is(SEASONING)) return false;
 
             } else if (i == 3) {
-                LogUtils.getLogger().debug("Container holds: " + curStack.toString());
-                LogUtils.getLogger().debug("Container holds seasonable food: " + (curStack.is(SEASONABLE_FOOD)));
-
+//                LogUtils.getLogger().debug("Container holds: " + curStack.toString());
+//                LogUtils.getLogger().debug("Cur Slot " + i + " holds seasonable food: " + (curStack.is(SEASONABLE_FOOD)));
+//                LogUtils.getLogger().debug("Slot 4 holds seasoning: " + (pContainer.getItem(4).is(SEASONING)));
                 if (!curStack.is(SEASONABLE_FOOD) || !pContainer.getItem(4).is(SEASONING)
-                        || !canAcceptMoreSeasonings(curStack)) return false;
+                        || willBeOverseasoned(curStack, pContainer.getItem(4))) return false;
                 foodStack = pContainer.getItem(i);
             } else {
                 return false;
             }
-            LogUtils.getLogger().debug("We are past the beef check");
+            LogUtils.getLogger().debug("matches() CheckPoint Alpha");
         }
         return true;
     }
@@ -78,14 +81,24 @@ public class SeasonedFoodRecipe extends CustomRecipe {
             return ItemStack.EMPTY;
         } else {
             ItemStack itemstack1 = foodStack.copyWithCount(1);
+            CompoundTag seasonedTag = itemstack1.getTagElement("seasoned_food_data");
             itemstack1.setHoverName(Component.literal(Component.translatable("seasoned").getString() + " " + Component.translatable(foodStack.getDescriptionId()).getString()));
-            itemstack1.getTagElement("seasoned_food_data");
-            itemstack1.getOrCreateTagElement("seasoned_food_data").putInt("max_seasonings", 1);
-            itemstack1.getOrCreateTagElement("seasoned_food_data").putInt("times_seasoned", itemstack1.getTagElement("seasoned_food_data").getInt("times_seasoned") + 1);
-            itemstack1.getOrCreateTagElement("seasoned_food_data").putBoolean("seasoned", true);
+            seasonedTag.putInt("max_seasonings", 2);
+            // Add scale based on nutrition and/or satiation.
+            seasonedTag.putInt("times_seasoned", seasonedTag.getInt("times_seasoned") + 1);
+            seasonedTag.putBoolean("seasoned", true);
+
+//            TODO: add list of seasonings that can be referenced
+            ListTag seasonedWithList =  seasonedTag.getList("seasoned_with", 9);
+            if(seasonedWithList == null) {
+                seasonedTag.put("seasoned_with", new ListTag());
+            }
+
+
+
             ArrayList<MobEffectInstance> effectList = new ArrayList<MobEffectInstance>();
             for (int i = 0; i < itemstack.getFoodProperties(null).getEffects().size(); i++) {
-                effectList.add(itemstack.getFoodProperties(null).getEffects().get(i).getFirst());
+                //effectList.add(itemstack.getFoodProperties(null).getEffects().get(i).getFirst());
             }
 
             //TODO: Learn about adding and removing tags
@@ -110,7 +123,7 @@ public class SeasonedFoodRecipe extends CustomRecipe {
         if (pEffects.isEmpty()) {
             return pStack;
         } else {
-            CompoundTag compoundtag = pStack.getOrCreateTag();
+            CompoundTag compoundtag = pStack.getOrCreateTagElement("seasoned_food_data");
             ListTag listtag = compoundtag.getList("CustomSeasoningEffects", 9);
 
             for(MobEffectInstance mobeffectinstance : pEffects) {
@@ -122,14 +135,29 @@ public class SeasonedFoodRecipe extends CustomRecipe {
         }
     }
 
-    public boolean canAcceptMoreSeasonings(ItemStack stack){
-        CompoundTag foodTag = stack.getTagElement("seasoned_food_data");
 
+    public boolean willBeOverseasoned(ItemStack foodStack, ItemStack seasoningStack){
+
+        CompoundTag foodTag = foodStack.getOrCreateTagElement("seasoned_food_data");
+        ListTag isSeasonedWith = foodTag.getList("seasoned_with", 9);
+
+        //Find out if this seasoning has already been used on this food
         if(foodTag != null) {
-           return foodTag.getInt("max_seasonings") < foodTag.getInt("times_seasoned");
-        }
-        LogUtils.getLogger().debug("Cannot Be Seasoned Again");
-        return true;
+           if (isSeasonedWith != null) {
+                for (Tag tag : isSeasonedWith) {
+                    String stackName = Component.translatable(seasoningStack.getDescriptionId()).toString();
+                    if (tag.toString() == stackName) {
+                        LogUtils.getLogger().debug("willBeOverseasoned() checkpoint Alpha");
+                        return false;
+                    }
+                }
+            }
+           if(foodTag.getInt("max_seasonings") <= foodTag.getInt("times_seasoned")){
+                LogUtils.getLogger().debug("willBeOverseasoned() checkpoint Beta");
+                return true;
+           }
+        };
+            return false;
     }
 
     @Override
