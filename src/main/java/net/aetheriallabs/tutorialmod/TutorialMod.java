@@ -9,10 +9,14 @@ import net.aetheriallabs.tutorialmod.util.ModCreativeModeTabs;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.aetheriallabs.tutorialmod.util.SeasonedFoodEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.profiling.jfr.event.ChunkGenerationEvent;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.ChunkEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,10 +48,8 @@ public class TutorialMod
         ModBlocks.register(modEventBus);
         ModLootModifiers.register(modEventBus);
         CraftingSerializers.register(modEventBus);
-
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 

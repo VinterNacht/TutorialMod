@@ -2,6 +2,7 @@ package net.aetheriallabs.tutorialmod.block;
 
 import net.aetheriallabs.tutorialmod.TutorialMod;
 import net.aetheriallabs.tutorialmod.block.custom.SoundBlock;
+import net.aetheriallabs.tutorialmod.block.custom.StrawberryCropBlock;
 import net.aetheriallabs.tutorialmod.item.ModItems;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -97,6 +98,10 @@ public class ModBlocks {
     //The noOcclusion property included above indicates that it will be possible to see through this block if there are empty spaces in it's texture,
     //Think windows, some doors, some trapdoors, etc. In this case, both the door and trapdoor had to use the <block>WithRenderType version of the
     //methods used to ??register?? them.
+
+    public static final RegistryObject<Block> STRAWBERRY_CROP = BLOCKS.register("strawberry_crop" , () ->
+            new StrawberryCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).noOcclusion().noCollission()));
+
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

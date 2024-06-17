@@ -71,6 +71,8 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModBlocks.SAPPHIRE_TRAPDOOR.get());
                         pOutput.accept(ModBlocks.SAPPHIRE_WALL.get());
 
+                        //Crop Blocks
+                        pOutput.accept(ModItems.STRAWBERRY_SEEDS.get());
 
                     })
                     .build());

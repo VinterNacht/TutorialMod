@@ -1,6 +1,7 @@
 package net.aetheriallabs.tutorialmod.item;
 
 import net.aetheriallabs.tutorialmod.TutorialMod;
+import net.aetheriallabs.tutorialmod.block.ModBlocks;
 import net.aetheriallabs.tutorialmod.item.custom.FuelItem;
 import net.aetheriallabs.tutorialmod.item.custom.MetalDetectorItem;
 import net.aetheriallabs.tutorialmod.item.custom.ModArmorItem;
@@ -51,9 +52,16 @@ public class ModItems {
             () -> new ModArmorItem(ModArmorMaterials.SAPPHIRE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> SAPPHIRE_BOOTS = ITEMS.register("sapphire_boots",
             () -> new ModArmorItem(ModArmorMaterials.SAPPHIRE, ArmorItem.Type.BOOTS, new Item.Properties()));
-
     //Food registers here as a regular item, as it's a type of Item, with additional properties. At the end, you send
     //the Food Object reference as an argument to the .food() method in Item.Properties() to set its properties.
+
+    public static final RegistryObject<Item> STRAWBERRY_SEEDS = ITEMS.register("strawberry_seeds",
+            () -> new ItemNameBlockItem(ModBlocks.STRAWBERRY_CROP.get(), new Item.Properties()));
+    //ItemNameBlockItem is used because this represents a block. As an ItemNameBlockItem we're able to list the
+    //strawberry seeds in the lang file as item.tutorialmod.strawberry_seeds as usual.  Otherwise it would have
+    //to be block.tutorialmod.strawberry_crop, which would be confusing to say the least, and confound the two
+    //when looking at them. Strawberry Crops would be "strawberry seeds" or Strawberry seeds would be "Strawberry Crops."
+    //Obviously not ideal.
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

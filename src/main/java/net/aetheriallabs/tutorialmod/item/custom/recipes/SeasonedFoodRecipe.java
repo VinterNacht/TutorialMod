@@ -146,10 +146,10 @@ public class SeasonedFoodRecipe extends CustomRecipe {
 
     public boolean hasUsedSeasoning(ItemStack seasoningStack, ItemStack seasonedStack){
         CompoundTag compoundSeasoned = seasonedStack.getTag();
-        ListTag seasonings;
-        LogUtils.getLogger().debug("CompoundSeasoned Contains seasoned_with " + compoundSeasoned.contains("seasoned_with", 8));
-        if (compoundSeasoned != null || compoundSeasoned.contains("seasoned_with", 8)) {
-            seasonings = compoundSeasoned.getList("seasoned_with", 8);
+        ListTag seasonings = new ListTag();
+        LogUtils.getLogger().debug("CompoundSeasoned Contains seasoned_with " + compoundSeasoned.contains("seasoned_with", 9));
+        if (compoundSeasoned != null && compoundSeasoned.contains("seasoned_with", 9)) {
+            seasonings = compoundSeasoned.getList("seasoned_with", 9);
 
             for (Tag tag : seasonings) {
                 String stackName = seasoningStack.getDescriptionId().toString();
@@ -162,7 +162,8 @@ public class SeasonedFoodRecipe extends CustomRecipe {
 
         CompoundTag seasoning = new CompoundTag();
         seasoning.putString(Component.translatable(seasoningStack.getDescriptionId()).getString(), seasoningStack.getDescriptionId().toString());
-        compoundSeasoned.put("seasoned_with", seasoning);
+        seasonings.add(seasoning);
+        compoundSeasoned.put("seasoned_with", seasonings);
         return false;
     }
 
